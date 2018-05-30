@@ -1,0 +1,92 @@
+<div id="login" fxLayout="row" fxLayoutAlign="start">
+
+    <div id="login-intro" fxFlex fxHide fxShow.gt-xs>
+
+        <div class="logo" *fuseIfOnDom [@animate]="{value:'*',params:{scale:'0.2'}}">
+            <img src="assets/images/adsib/logo.png">
+        </div>
+
+        <div class="title" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',y:'25px'}}">
+            Bienvenido al Catalogo de Software Libre!
+        </div>
+
+        <div class="description" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',y:'25px'}}">
+            Publique sus proyectos almacenados en sus repositorios, califique y revise los proyectos que conoce.
+        </div>
+
+    </div>
+
+    <div id="login-form-wrapper" fusePerfectScrollbar *fuseIfOnDom [@animate]="{value:'*',params:{delay:'300ms',x:'100%'}}">
+
+        <div id="login-form">
+
+            <div class="logo" fxHide.gt-xs>
+                <span>F</span>
+            </div>
+
+            <div class="title">INGRESE SU CUENTA</div>
+
+            <form name="loginForm" [formGroup]="loginForm" novalidate>
+
+                <mat-form-field>
+                    <input matInput placeholder="Email" formControlName="email">
+                    <mat-error *ngIf="loginFormErrors.email.required">
+                        Email es requerido
+                    </mat-error>
+                    <mat-error *ngIf="!loginFormErrors.email.required && loginFormErrors.email.email">
+                        Porfavor ingrese un correo valido
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput type="password" placeholder="Password" formControlName="password">
+                    <mat-error *ngIf="loginFormErrors.password.required">
+                        Contraseña es requerido
+                    </mat-error>
+                </mat-form-field>
+
+                <div class="remember-forgot-password" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center">
+                    <mat-checkbox class="remember-me" aria-label="Remember Me">
+                        Recuerdame
+                    </mat-checkbox>
+
+                    <a class="forgot-password" [routerLink]="'/pages/auth/forgot-password-2'">
+                        Olvido su contraseña?
+                    </a>
+                </div>
+
+                <button (click)="local()" mat-raised-button color="accent" class="submit-button" aria-label="LOGIN" [disabled]="loginForm.invalid">
+                    INICIAR SESIÓN
+                </button>
+
+            </form>
+
+            <div class="separator">
+                <span class="text">O</span>
+            </div>
+
+            <div fxLayout="column" fxLayoutAlign="start center">
+
+                <button (click)="loginGH()" mat-raised-button class="github">
+                    <mat-icon fontSet="fa" fontIcon="fa-github fa-lg"></mat-icon>
+                    Entrar Con Github
+                </button>
+
+                <button (click)="loginGL()" mat-raised-button class="gitlab">
+                    <mat-icon fontSet="fa" fontIcon="fa-gitlab fa-lg"></mat-icon>
+                    Entrar Con Gitlab
+                </button>
+
+                <button (click)="loginBB()" mat-raised-button class="bitbucket">
+                    <mat-icon fontSet="fa" fontIcon="fa-bitbucket fa-lg"></mat-icon>
+                    Entrar Con Bitbucket
+                </button>
+            </div>
+
+            <div class="register" fxLayout="column" fxLayoutAlign="center center">
+                <span class="text">No tienes una cuenta?</span>
+                <a class="link" [routerLink]="'/pages/auth/register-2'">Crear una cuenta</a>
+            </div>
+        </div>
+    </div>
+</div>
