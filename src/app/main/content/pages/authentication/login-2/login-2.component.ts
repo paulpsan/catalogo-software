@@ -1,53 +1,52 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { FuseConfigService } from '@fuse/services/config.service';
-import { fuseAnimations } from '@fuse/animations';
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FuseConfigService } from "@fuse/services/config.service";
+import { fuseAnimations } from "@fuse/animations";
 import { environment } from "../../../../../../environments/environment";
+import { Usuario } from "../../../models/usuario";
+import { UsuarioService } from "../../../services/usuario.service";
+import { Router } from "@angular/router";
 
 @Component({
-    selector   : 'fuse-login-2',
-    templateUrl: './login-2.component.html',
-    styleUrls  : ['./login-2.component.scss'],
-    animations : fuseAnimations
+  selector: "fuse-login-2",
+  templateUrl: "./login-2.component.html",
+  styleUrls: ["./login-2.component.scss"],
+  animations: fuseAnimations
 })
-export class FuseLogin2Component implements OnInit
-{
-    loginForm: FormGroup;
-    loginFormErrors: any;
+export class FuseLogin2Component implements OnInit {
+  loginForm: FormGroup;
+  loginFormErrors: any;
 
-    constructor(
-        private fuseConfig: FuseConfigService,
-        private formBuilder: FormBuilder
-    )
-    {
-        this.fuseConfig.setConfig({
-            layout: {
-                navigation: 'none',
-                toolbar   : 'none',
-                footer    : 'none'
-            }
-        });
+  constructor(
+    private fuseConfig: FuseConfigService,
+    private formBuilder: FormBuilder,
+    private router: Router,
+    public _usuarioService: UsuarioService
+  ) {
+    this.fuseConfig.setConfig({
+      layout: {
+        navigation: "none",
+        toolbar: "none",
+        footer: "none"
+      }
+    });
 
-        this.loginFormErrors = {
-            email   : {},
-            password: {}
-        };
-    }
+    this.loginFormErrors = {
+      email: {},
+      password: {}
+    };
+  }
 
-    ngOnInit()
-    {
-        this.loginForm = this.formBuilder.group({
-            email   : ['', [Validators.required, Validators.email]],
-            password: ['', Validators.required]
-        });
+  ngOnInit() {
+    this.loginForm = this.formBuilder.group({
+      email: ["", [Validators.required, Validators.email]],
+      password: ["", Validators.required]
+    });
 
-        this.loginForm.valueChanges.subscribe(() => {
-            this.onLoginFormValuesChanged();
-        });
-
-
-
-    }
+    this.loginForm.valueChanges.subscribe(() => {
+      this.onLoginFormValuesChanged();
+    });
+  }
   //login github
   loginGH() {
     window.location.href =
@@ -77,30 +76,42 @@ export class FuseLogin2Component implements OnInit
       "&state=" +
       environment.bitbucket.state;
   }
-  local(){
+  local() {
+
     let email = this.loginForm.controls["email"].value;
     let password = this.loginForm.controls["password"].value;
-    
+
+    let usuario = new Usuario(null, "", email, password);
+
+    this._usuarioService.login(usuario).subscribe(
+      response => {
+        // this._usuarioService.guardarStorage(
+        //   response.usuario,
+        // );
+        console.log(response);
+        this.router.navigate(["/pages/settings"]);
+      },
+      error => {
+        let errorMessage = <any>error;
+        console.log(errorMessage.error);
+      }
+    );
   }
-    onLoginFormValuesChanged()
-    {
-        for ( const field in this.loginFormErrors )
-        {
-            if ( !this.loginFormErrors.hasOwnProperty(field) )
-            {
-                continue;
-            }
+  onLoginFormValuesChanged() {
+    for (const field in this.loginFormErrors) {
+      if (!this.loginFormErrors.hasOwnProperty(field)) {
+        continue;
+      }
 
-            // Clear previous errors
-            this.loginFormErrors[field] = {};
+      // Clear previous errors
+      this.loginFormErrors[field] = {};
 
-            // Get the control
-            const control = this.loginForm.get(field);
+      // Get the control
+      const control = this.loginForm.get(field);
 
-            if ( control && control.dirty && !control.valid )
-            {
-                this.loginFormErrors[field] = control.errors;
-            }
-        }
+      if (control && control.dirty && !control.valid) {
+        this.loginFormErrors[field] = control.errors;
+      }
     }
+  }
 }

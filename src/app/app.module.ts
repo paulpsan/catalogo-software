@@ -15,6 +15,7 @@ import { fuseConfig } from './fuse-config';
 import { AppComponent } from './app.component';
 import { FuseMainModule } from './main/main.module';
 import { FuseSampleModule } from './main/content/sample/sample.module';
+import { ServicesModule } from './main/content/services/services.module';
 
 const appRoutes: Routes = [
     {
@@ -23,32 +24,27 @@ const appRoutes: Routes = [
     },
     {
         path      : '**',
-        redirectTo: 'sample'
+        redirectTo: 'pages'
     }
 ];
 
 @NgModule({
-    declarations: [
-        AppComponent
-    ],
-    imports     : [
-        BrowserModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        RouterModule.forRoot(appRoutes),
-        TranslateModule.forRoot(),
-        NgbModule.forRoot(),
+  declarations: [AppComponent],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    RouterModule.forRoot(appRoutes),
+    TranslateModule.forRoot(),
+    NgbModule.forRoot(),
 
-        // Fuse Main and Shared modules
-        FuseModule.forRoot(fuseConfig),
-        FuseSharedModule,
-        FuseMainModule,
-        FuseSampleModule
-    ],
-    bootstrap   : [
-        AppComponent
-    ]
+    // Fuse Main and Shared modules
+    FuseModule.forRoot(fuseConfig),
+    FuseSharedModule,
+    FuseMainModule,
+    FuseSampleModule,
+    ServicesModule
+  ],
+  bootstrap: [AppComponent]
 })
-export class AppModule
-{
-}
+export class AppModule {}

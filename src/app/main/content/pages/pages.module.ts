@@ -10,23 +10,24 @@ import { ResetPasswordModule } from './authentication/reset-password/reset-passw
 import { ResetPassword2Module } from './authentication/reset-password-2/reset-password-2.module';
 import { LockModule } from './authentication/lock/lock.module';
 import { MailConfirmModule } from './authentication/mail-confirm/mail-confirm.module';
+import { ListarModule } from './listar/listar.module';
+import { SettingsModule } from './settings/settings.module';
 
 @NgModule({
-    imports: [
-        // Auth
-        LoginModule,
-        Login2Module,
-        RegisterModule,
-        Register2Module,
-        ForgotPasswordModule,
-        ForgotPassword2Module,
-        ResetPasswordModule,
-        ResetPassword2Module,
-        LockModule,
-        MailConfirmModule,
-    ]
+  imports: [
+    // Auth
+    LoginModule,
+    Login2Module,
+    RegisterModule,
+    Register2Module,
+    ForgotPasswordModule,
+    ForgotPassword2Module,
+    ResetPasswordModule,
+    ResetPassword2Module,
+    LockModule,
+    MailConfirmModule,
+    ListarModule,
+    SettingsModule
+  ]
 })
-export class FusePagesModule
-{
-
-}
+export class FusePagesModule {}
